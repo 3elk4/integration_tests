@@ -39,16 +39,14 @@ public class UserRepositoryTest {
         user.setAccountStatus(AccountStatus.NEW);
     }
 
-    @Ignore
     @Test
     public void shouldFindNoUsersIfRepositoryIsEmpty() {
-
+        repository.deleteAll();
         List<User> users = repository.findAll();
 
         assertThat(users, hasSize(0));
     }
 
-    @Ignore
     @Test
     public void shouldFindOneUsersIfRepositoryContainsOneUserEntity() {
         User persistedUser = entityManager.persist(user);
@@ -60,7 +58,6 @@ public class UserRepositoryTest {
                 equalTo(persistedUser.getEmail()));
     }
 
-    @Ignore
     @Test
     public void shouldStoreANewUser() {
 
