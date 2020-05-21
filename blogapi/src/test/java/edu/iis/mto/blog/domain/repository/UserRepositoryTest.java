@@ -35,6 +35,7 @@ public class UserRepositoryTest {
     public void setUp() {
         user = new User();
         user.setFirstName("Jan");
+        user.setLastName("Kowalski");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
     }
@@ -66,4 +67,43 @@ public class UserRepositoryTest {
         assertThat(persistedUser.getId(), notNullValue());
     }
 
+    @Test
+    public void shouldFindUserByFirstName() {
+        entityManager.persist(user);
+        String searchString = "Jan";
+        List<User> users = findByString(searchString);
+        assertThat(users, hasSize(1));
+        assertThat(users.get(0).getFirstName(), equalTo(searchString));
+    }
+
+    @Test
+    public void shouldFindUserByLastName() {
+        entityManager.persist(user);
+        String searchString = "Kowalski";
+        List<User> users = findByString(searchString);
+        assertThat(users, hasSize(1));
+        assertThat(users.get(0).getLastName(), equalTo(searchString));
+    }
+
+    @Test
+    public void shouldFindUserByEmail() {
+        entityManager.persist(user);
+        String searchString = "john@domain.com";
+        List<User> users = findByString(searchString);
+        assertThat(users, hasSize(1));
+        assertThat(users.get(0).getEmail(), equalTo(searchString));
+    }
+
+    @Test
+    public void shouldFindNoUser() {
+        entityManager.persist(user);
+        String searchString = "TestName";
+        List<User> users = findByString(searchString);
+        assertThat(users, hasSize(0));
+    }
+
+    private List<User> findByString(String searchString){
+        return repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(searchString,
+                searchString, searchString);
+    }
 }
