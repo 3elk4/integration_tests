@@ -96,4 +96,26 @@ public class LikePostRepositoryTest {
 		List<LikePost> likes = repository.findAll();
 		assertThat(likes, hasSize(0));
 	}
+
+	@Test
+	public void shouldFindPostLikeByUserAndPost() {
+		entityManager.persist(user);
+		entityManager.persist(blogPost);
+		entityManager.persist(likePost);
+
+		Optional<LikePost> result = repository.findByUserAndPost(user, blogPost);
+
+		assertThat(result.isPresent(), is(true));
+		assertThat(result.get().getUser(), equalTo(user));
+		assertThat(result.get().getPost(), equalTo(blogPost));
+	}
+
+	@Test
+	public void shouldFindNoPostLikeByUserAndPost() {
+		entityManager.persist(user);
+		entityManager.persist(blogPost);
+
+		Optional<LikePost> result = repository.findByUserAndPost(user, blogPost);
+		assertThat(result.isPresent(), is(false));
+	}
 }
