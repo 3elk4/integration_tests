@@ -3,6 +3,8 @@ package edu.iis.mto.blog.domain;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
+import edu.iis.mto.blog.api.request.PostRequest;
+import edu.iis.mto.blog.domain.errors.DomainError;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,4 +46,13 @@ public class BlogManagerTest {
         assertThat(user.getAccountStatus(), Matchers.equalTo(AccountStatus.NEW));
     }
 
+    @Test(expected = DomainError.class)
+    public void checkIfOnlyUserWithConfirmedStatusCanLikePost() {
+        blogService.createUser(new UserRequest("John", "Steward", "john@domain.com"));
+        verify(userRepository).save(userParam.capture());
+        User user = userParam.getValue();
+        assertThat(user.getAccountStatus(), Matchers.equalTo(AccountStatus.NEW));
+        Long postId = blogService.createPost(20L, new PostRequest());
+        blogService.addLikeToPost(user.getId(), postId);
+    }
 }
