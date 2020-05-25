@@ -5,12 +5,25 @@ import static io.restassured.RestAssured.given;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.http.ContentType;
 
 public class CreateUserTest extends FunctionalTests {
     private static final String USER_API = "/blog/user";
+	private static final String IRRELEVANT_NAME = "CREATE_USER_TEST";
+
+    @BeforeAll
+	public static void init(){
+		JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME,IRRELEVANT_NAME + "1@domain.com");
+		given()
+				.accept(ContentType.JSON)
+				.header("Content-Type", "application/json;charset=UTF-8")
+				.body(jsonObj.toString())
+		.when()
+				.post(USER_API);
+	}
 
     @Test
     void createUserWithProperDataReturnsCreatedStatus() {
@@ -28,14 +41,7 @@ public class CreateUserTest extends FunctionalTests {
 
     @Test
     void createUserWithProperDataReturnsConflictStatus() {
-        JSONObject jsonObj = createJSONUser("Test", "Test","test1@domain.com");
-		given()
-				.accept(ContentType.JSON)
-				.header("Content-Type", "application/json;charset=UTF-8")
-				.body(jsonObj.toString())
-		.when()
-				.post(USER_API);
-
+		JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME,IRRELEVANT_NAME + "1@domain.com");
 		given()
 				.accept(ContentType.JSON)
 				.header("Content-Type", "application/json;charset=UTF-8")
@@ -45,12 +51,4 @@ public class CreateUserTest extends FunctionalTests {
 		.when()
 				.post(USER_API);
     }
-
-	private JSONObject createJSONUser(String firstName, String lastName, String email){
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("email", email);
-		jsonObj.put("firstName", firstName);
-		jsonObj.put("lastName", lastName);
-		return jsonObj;
-	}
 }

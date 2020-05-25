@@ -1,5 +1,6 @@
 package edu.iis.mto.blog.rest.test;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 
 import io.restassured.RestAssured;
@@ -26,6 +27,14 @@ public class FunctionalTests {
             baseHost = "http://localhost";
         }
         RestAssured.baseURI = baseHost;
+    }
+
+    public static JSONObject createJSONUser(String firstName, String lastName, String email){
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("email", email);
+        jsonObj.put("firstName", firstName);
+        jsonObj.put("lastName", lastName);
+        return jsonObj;
     }
 
 }
