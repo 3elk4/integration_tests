@@ -7,17 +7,24 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 
 public class SearchUserTest extends FunctionalTests {
 	private static final String USER_API = "/blog/user";
 	private static final String FIND_USER_API = "/blog/user/find";
 	private static final String IRRELEVANT_NAME = "FIND_USER_TEST";
+	private static List<String> emails = new ArrayList<>();
 
 	@BeforeAll
 	public static void init(){
 		for(int i = 1; i <= 2; ++i){
-			JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME, IRRELEVANT_NAME + i + "@domain.com");
+			emails.add(IRRELEVANT_NAME + i + "@domain.com");
+		}
+		for (String email : emails) {
+			JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME, email);
 			createTestUser(jsonObj, USER_API);
 		}
 	}
@@ -30,7 +37,7 @@ public class SearchUserTest extends FunctionalTests {
 				.queryParam("searchString", IRRELEVANT_NAME)
 		.expect()
 				.statusCode(HttpStatus.SC_OK)
-				.body("email", Matchers.hasItems(IRRELEVANT_NAME + "1@domain.com", IRRELEVANT_NAME + "2@domain.com"))
+				.body("email", Matchers.hasItems(emails.get(0), emails.get(1)))
 		.when()
 				.get(FIND_USER_API);
 	}

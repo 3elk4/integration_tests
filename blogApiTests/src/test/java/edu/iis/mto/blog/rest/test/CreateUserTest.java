@@ -29,7 +29,6 @@ public class CreateUserTest extends FunctionalTests {
 				.body(jsonObj.toString())
 		.expect()
 				.statusCode(HttpStatus.SC_CREATED)
-				.body("id", Matchers.equalTo(1))
 		.when()
 				.post(USER_API);
     }
