@@ -7,14 +7,10 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static edu.iis.mto.blog.rest.test.FunctionalTestsData.*;
 import static io.restassured.RestAssured.given;
 
 public class SearchPostTest extends FunctionalTests {
-	private static final String USER_API = "/blog/user";
-	private static final String POST_API = "/blog/user/{userid}/post";
-	private static final String LIKE_API = "/blog/user/{userId}/like/{postId}";
-	private static final String FIND_POST_API = "/blog/user/{id}/post";
-
 	private static final String IRRELEVANT_NAME = "SEARCH_POST_TEST";
 	private static int USER_ID;
 	private static int POST_ID;

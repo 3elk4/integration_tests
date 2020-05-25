@@ -10,11 +10,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.iis.mto.blog.rest.test.FunctionalTestsData.*;
 import static io.restassured.RestAssured.given;
 
 public class SearchUserTest extends FunctionalTests {
-	private static final String USER_API = "/blog/user";
-	private static final String FIND_USER_API = "/blog/user/find";
 	private static final String IRRELEVANT_NAME = "FIND_USER_TEST";
 	private static List<String> emails = new ArrayList<>();
 

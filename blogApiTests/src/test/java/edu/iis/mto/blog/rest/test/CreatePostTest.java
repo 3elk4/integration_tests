@@ -1,5 +1,6 @@
 package edu.iis.mto.blog.rest.test;
 
+import static edu.iis.mto.blog.rest.test.FunctionalTestsData.*;
 import static io.restassured.RestAssured.given;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -9,8 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class CreatePostTest extends FunctionalTests {
-	private static final String USER_API = "/blog/user";
-	private static final String POST_API = "/blog/user/{userid}/post";
 	private static final String IRRELEVANT_NAME = "CREATE_POST_TEST";
 	private static int USER_ID;
 
