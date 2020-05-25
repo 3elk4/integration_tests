@@ -17,12 +17,7 @@ public class CreateUserTest extends FunctionalTests {
     @BeforeAll
 	public static void init(){
 		JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME,IRRELEVANT_NAME + "1@domain.com");
-		given()
-				.accept(ContentType.JSON)
-				.header("Content-Type", "application/json;charset=UTF-8")
-				.body(jsonObj.toString())
-		.when()
-				.post(USER_API);
+		createTestUser(jsonObj, USER_API);
 	}
 
     @Test

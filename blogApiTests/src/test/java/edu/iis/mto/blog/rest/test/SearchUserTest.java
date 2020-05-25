@@ -18,17 +18,12 @@ public class SearchUserTest extends FunctionalTests {
 	public static void init(){
 		for(int i = 1; i <= 2; ++i){
 			JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME, IRRELEVANT_NAME + i + "@domain.com");
-			given()
-					.accept(ContentType.JSON)
-					.header("Content-Type", "application/json;charset=UTF-8")
-					.body(jsonObj.toString())
-			.when()
-					.post(USER_API);
+			createTestUser(jsonObj, USER_API);
 		}
 	}
 
 	@Test
-	void searchUserByNameSurnameOrEmail() {
+	void searchUserByNameSurnameOrEmailReturnsOkStatus() {
 		given()
 				.accept(ContentType.JSON)
 				.header("Content-Type", "application/json;charset=UTF-8")
