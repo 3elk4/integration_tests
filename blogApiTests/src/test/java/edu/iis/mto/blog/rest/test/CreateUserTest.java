@@ -3,26 +3,54 @@ package edu.iis.mto.blog.rest.test;
 import static io.restassured.RestAssured.given;
 
 import org.apache.http.HttpStatus;
+import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.http.ContentType;
 
 public class CreateUserTest extends FunctionalTests {
-
     private static final String USER_API = "/blog/user";
 
     @Test
-    public void createUserWithProperDataReturnsCreatedStatus() {
-        JSONObject jsonObj = new JSONObject().put("email", "tracy1@domain.com");
-        given().accept(ContentType.JSON)
-               .header("Content-Type", "application/json;charset=UTF-8")
-               .body(jsonObj.toString())
-               .expect()
-               .log()
-               .all()
-               .statusCode(HttpStatus.SC_CREATED)
-               .when()
-               .post(USER_API);
+    void createUserWithProperDataReturnsCreatedStatus() {
+        JSONObject jsonObj = createJSONUser("Tracy", "Jackson", "tracy1@domain.com");
+		given()
+				.accept(ContentType.JSON)
+				.header("Content-Type", "application/json;charset=UTF-8")
+				.body(jsonObj.toString())
+		.expect()
+				.statusCode(HttpStatus.SC_CREATED)
+				.body("id", Matchers.equalTo(1))
+		.when()
+				.post(USER_API);
     }
+
+    @Test
+    void createUserWithProperDataReturnsConflictStatus() {
+        JSONObject jsonObj = createJSONUser("Test", "Test","test1@domain.com");
+		given()
+				.accept(ContentType.JSON)
+				.header("Content-Type", "application/json;charset=UTF-8")
+				.body(jsonObj.toString())
+		.when()
+				.post(USER_API);
+
+		given()
+				.accept(ContentType.JSON)
+				.header("Content-Type", "application/json;charset=UTF-8")
+				.body(jsonObj.toString())
+		.expect()
+				.statusCode(HttpStatus.SC_CONFLICT)
+		.when()
+				.post(USER_API);
+    }
+
+	private JSONObject createJSONUser(String firstName, String lastName, String email){
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("email", email);
+		jsonObj.put("firstName", firstName);
+		jsonObj.put("lastName", lastName);
+		return jsonObj;
+	}
 }
