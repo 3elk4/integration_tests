@@ -4,22 +4,12 @@ import static edu.iis.mto.blog.rest.test.FunctionalTestsData.*;
 import static io.restassured.RestAssured.given;
 
 import org.apache.http.HttpStatus;
-import org.hamcrest.Matchers;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.http.ContentType;
 
 public class CreateUserTest extends FunctionalTests {
-	private static final String IRRELEVANT_NAME = "CREATE_USER_TEST";
-
-    @BeforeAll
-	public static void init(){
-		JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME,IRRELEVANT_NAME + "1@domain.com");
-		createTestUser(jsonObj, USER_API);
-	}
-
     @Test
     void createUserWithProperDataReturnsCreatedStatus() {
         JSONObject jsonObj = createJSONUser("Tracy", "Jackson", "tracy1@domain.com");
@@ -35,7 +25,7 @@ public class CreateUserTest extends FunctionalTests {
 
     @Test
     void createUserWithProperDataReturnsConflictStatus() {
-		JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME,IRRELEVANT_NAME + "1@domain.com");
+		JSONObject jsonObj = createJSONUser("John", "Steward", "john@domain.com");
 		given()
 				.accept(ContentType.JSON)
 				.header("Content-Type", "application/json;charset=UTF-8")

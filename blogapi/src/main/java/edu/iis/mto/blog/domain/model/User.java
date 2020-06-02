@@ -1,9 +1,6 @@
 package edu.iis.mto.blog.domain.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 public class User extends BaseEntity {
