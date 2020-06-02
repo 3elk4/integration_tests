@@ -6,23 +6,15 @@ import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class CreatePostTest extends FunctionalTests {
-	private static final String IRRELEVANT_NAME = "CREATE_POST_TEST";
-	private static int USER_ID;
-
-	@BeforeAll
-	public static void init(){
-		JSONObject jsonObj = createJSONUser(IRRELEVANT_NAME, IRRELEVANT_NAME,IRRELEVANT_NAME + "1@domain.com");
-		String id = createTestUser(jsonObj, USER_API);
-		JSONObject obj = new JSONObject(id);
-		USER_ID = (int)obj.get("id");
-	}
+	private final String IRRELEVANT_NAME = "CREATE_POST_TEST";
+	private final int CONFIRMED_USER_ID = 1;
+	private final int NEW_USER_ID = 3;
 
 	@Test
-	void createPostWithProperDataReturnsCreatedStatus() {
+	void createPostByUserWithConfirmedStatusReturnsCreatedStatus() {
 		JSONObject jsonObj = createJSONPost(IRRELEVANT_NAME);
 		given()
 				.accept(ContentType.JSON)
@@ -30,8 +22,21 @@ public class CreatePostTest extends FunctionalTests {
 				.body(jsonObj.toString())
 		.expect()
 				.statusCode(HttpStatus.SC_CREATED)
-				.body("id", Matchers.equalTo(USER_ID + 1))
+				.body("id", Matchers.equalTo(CONFIRMED_USER_ID))
 		.when()
-				.post(POST_API,USER_ID);
+				.post(POST_API, CONFIRMED_USER_ID);
+	}
+
+	@Test
+	void createPostByUserWithNotConfirmedStatusReturnsBadRequestStatus() {
+		JSONObject jsonPost = createJSONPost(IRRELEVANT_NAME);
+		given()
+				.accept(ContentType.JSON)
+				.header("Content-Type", "application/json;charset=UTF-8")
+				.body(jsonPost.toString())
+		.expect()
+				.statusCode(HttpStatus.SC_BAD_REQUEST)
+		.when()
+				.post(POST_API, NEW_USER_ID);
 	}
 }
