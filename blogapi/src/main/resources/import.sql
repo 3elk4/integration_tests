@@ -6,6 +6,9 @@ insert into user (account_status, email, first_name, last_name) values ('CONFIRM
 insert into user (account_status, email, first_name) values ('NEW', 'brian@domain.com', 'Brian', 'Williams')
 insert into user (account_status, email, first_name) values ('NEW', 'mary@domain.com', 'Mary', 'Poppins')
 
+insert into user (account_status, email, first_name) values ('REMOVED', 'removed@domain.com', 'Removed', 'Devomer')
+
 insert into blog_post (user_id, entry) values (1, 'testing post')
+insert into blog_post (user_id, entry) values (6, 'testing removed user post')
 
 insert into like_post (user_id, post_id) values(3, 1)
