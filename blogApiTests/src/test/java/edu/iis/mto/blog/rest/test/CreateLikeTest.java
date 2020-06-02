@@ -12,12 +12,6 @@ import static edu.iis.mto.blog.rest.test.FunctionalTestsData.*;
 import static io.restassured.RestAssured.given;
 
 public class CreateLikeTest extends FunctionalTests {
-	private int POST_OWNER_USER_ID = 1;
-	private int CONFIRMED_USER_ID = 2;
-	private int CONFIRMED_USER_ID2 = 3;
-	private int NEW_USER_ID = 4;
-	private int POST_ID = 1;
-
 	@Test
 	void addLikeAsAuthorOfPostReturnsBadRequestStatus() {
 		given()
@@ -37,7 +31,7 @@ public class CreateLikeTest extends FunctionalTests {
 		.expect()
 				.statusCode(HttpStatus.SC_OK)
 		.when()
-				.post(LIKE_API, CONFIRMED_USER_ID, POST_ID)
+				.post(LIKE_API, CONFIRMED_USER_ID2, POST_ID)
 		.asString();
 
 		Assertions.assertEquals("true", result);
@@ -51,7 +45,7 @@ public class CreateLikeTest extends FunctionalTests {
 		.expect()
 				.statusCode(HttpStatus.SC_OK)
 		.when()
-				.post(LIKE_API, CONFIRMED_USER_ID2, POST_ID)
+				.post(LIKE_API, CONFIRMED_USER_ID3, POST_ID)
 		.asString();
 
 		Assertions.assertEquals("false", result);

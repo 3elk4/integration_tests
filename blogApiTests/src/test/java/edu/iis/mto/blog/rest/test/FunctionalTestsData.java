@@ -1,9 +1,5 @@
 package edu.iis.mto.blog.rest.test;
-
-import io.restassured.http.ContentType;
 import org.json.JSONObject;
-
-import static io.restassured.RestAssured.given;
 
 public class FunctionalTestsData {
 	public static final String USER_API = "/blog/user";
@@ -11,6 +7,16 @@ public class FunctionalTestsData {
 	public static final String POST_API = "/blog/user/{userid}/post";
 	public static final String LIKE_API = "/blog/user/{userId}/like/{postId}";
 	public static final String FIND_POST_API = "/blog/user/{id}/post";
+
+	public static final int POST_OWNER_USER_ID = 1;
+	public static final int CONFIRMED_USER_ID = 1;
+	public static final int CONFIRMED_USER_ID2 = 2;
+	public static final int CONFIRMED_USER_ID3 = 3;
+	public static final int NEW_USER_ID = 5;
+	public static final int REMOVED_USER_ID = 6;
+	public static final int POST_ID = 1;
+	public static final String CONFIRMED_USER_NAME = "John";
+	public static final String REMOVED_USER_NAME = "Removed";
 
 	public static JSONObject createJSONUser(String firstName, String lastName, String email){
 		JSONObject jsonObj = new JSONObject();
@@ -24,15 +30,5 @@ public class FunctionalTestsData {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("entry", entry);
 		return jsonObj;
-	}
-
-	public static String createTestUser(JSONObject body, String user_api){
-		return given()
-				.accept(ContentType.JSON)
-				.header("Content-Type", "application/json;charset=UTF-8")
-				.body(body.toString())
-				.when()
-				.post(user_api)
-				.asString();
 	}
 }

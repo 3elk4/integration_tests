@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 public class CreatePostTest extends FunctionalTests {
 	private final String IRRELEVANT_NAME = "CREATE_POST_TEST";
-	private final int CONFIRMED_USER_ID = 1;
-	private final int NEW_USER_ID = 5;
 
 	@Test
 	void createPostByUserWithConfirmedStatusReturnsCreatedStatus() {

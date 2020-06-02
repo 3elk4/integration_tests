@@ -9,9 +9,6 @@ import static edu.iis.mto.blog.rest.test.FunctionalTestsData.*;
 import static io.restassured.RestAssured.given;
 
 public class SearchPostTest extends FunctionalTests {
-	private static int CONFIRMED_USER_ID = 1;
-	private static int REMOVED_USER_ID = 6;
-
 	@Test
 	void searchConfirmedUserPostWithOneLikeReturnsOkStatus() {
 		given()
